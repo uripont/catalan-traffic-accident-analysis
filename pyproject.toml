@@ -1,0 +1,11 @@
+[project]
+name = "catalan-traffic-accident-analysis"
+version = "0.1.0"
+description = "Visual Analytics and ML analysis of Catalan road traffic accidents"
+authors = [{name = "Felipe López, Oriol Pont"}]
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "jupyter>=1.0.0",
+]

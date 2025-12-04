@@ -43,5 +43,47 @@ catalan-traffic-accident-analysis/
 ├── models/
 ├── output/             # for static visualizations
 ├── README.md
-└── LICENSE
+├── LICENSE
+└── pyproject.toml      # Project dependencies
+```
+
+-----
+
+### Development setup
+
+This project uses `uv` for fast and reliable Python environment management. All dependencies (notebooks, Jupyter, Streamlit, ML libraries) are specified in `pyproject.toml`.
+
+#### Prerequisites
+
+* Python 3.10 or higher
+* `uv` package manager ([install uv](https://docs.astral.sh/uv/getting-started/installation/))
+
+#### Setting up the environment
+
+1. Clone the repository and navigate to the project directory
+2. Create and activate the virtual environment:
+
+```bash
+uv sync
+source .venv/bin/activate
+```
+
+On Windows:
+
+```bash
+uv sync
+.venv\Scripts\activate
+```
+
+This will:
+
+* Create a `.venv` virtual environment
+* Install all dependencies including Jupyter, Streamlit, pandas, scikit-learn, and XAI libraries
+
+#### Updating dependencies
+
+To add new packages, edit `pyproject.toml` and run:
+
+```bash
+uv sync
 ```
