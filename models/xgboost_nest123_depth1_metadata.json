@@ -1,0 +1,42 @@
+{
+  "model_type": "XGBClassifier",
+  "hyperparameters": {
+    "n_estimators": 123,
+    "max_depth": 1,
+    "learning_rate": 0.07152840907139495,
+    "subsample": 0.8866571592924563,
+    "colsample_bytree": 0.7279236639438305,
+    "min_child_weight": 7,
+    "gamma": 8.406010472240073,
+    "reg_alpha": 4.22473075078714,
+    "reg_lambda": 3.628240711254872
+  },
+  "training_time_seconds": 0.16275596618652344,
+  "optimization_trial_number": 604,
+  "optimization_best_score": 0.6599582162616228,
+  "evaluation_metrics": {
+    "Train": {
+      "Accuracy": 0.7310369833212473,
+      "Precision": 0.2937546284867934,
+      "Recall": 0.5839057899901865,
+      "F1": 0.3908687797667926,
+      "ROC-AUC": 0.7325317562299963
+    },
+    "Val": {
+      "Accuracy": 0.7390862944162436,
+      "Precision": 0.30892448512585813,
+      "Recall": 0.6178489702517163,
+      "F1": 0.41189931350114417,
+      "ROC-AUC": 0.732055970468008
+    },
+    "Test": {
+      "Accuracy": 0.7361299052774019,
+      "Precision": 0.29704142011834317,
+      "Recall": 0.5743707093821511,
+      "F1": 0.3915756630265211,
+      "ROC-AUC": 0.7292839863263454
+    }
+  },
+  "optimal_threshold": 0.5575346946716309,
+  "total_trials_run": 1000
+}
