@@ -14,5 +14,6 @@ dependencies = [
     "xgboost>=2.0.0",
     "lightgbm>=4.0.0",
     "catboost>=1.2.0",
-    "interpret>=0.4.0"
+    "interpret>=0.4.0",
+    "optuna>=3.0.0"
 ]
