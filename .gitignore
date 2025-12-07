@@ -14,3 +14,4 @@ __pycache__/
 # OS
 .DS_Store
 
+notebooks/catboost_info
