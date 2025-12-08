@@ -3,7 +3,7 @@ name = "catalan-traffic-accident-analysis"
 version = "0.1.0"
 description = "Visual Analytics and ML analysis of Catalan road traffic accidents"
 authors = [{name = "Felipe López, Oriol Pont"}]
-requires-python = ">=3.10"
+requires-python = ">=3.12, <3.14"
 dependencies = [
     "pandas>=2.0.0",
     "numpy>=1.24.0",
@@ -16,6 +16,5 @@ dependencies = [
     "catboost>=1.2.0",
     "interpret>=0.4.0",
     "optuna>=3.0.0",
-    "shap>=0.40.0",
-    "streamlit>=1.28.0"
+    "shap>=0.50.0"
 ]
