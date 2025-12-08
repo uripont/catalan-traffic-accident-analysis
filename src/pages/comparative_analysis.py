@@ -119,7 +119,7 @@ def main():
         "Advanced comparison"
     ])
     
-    with tab1:
+    with tab2:
         st.markdown("---")
         st.markdown("#### 📋 Create scenarios to compare")
         
@@ -181,7 +181,7 @@ def main():
             except Exception as e:
                 st.error(f"Comparison error: {str(e)}")
     
-    with tab2:
+    with tab1:
         st.markdown("---")
         st.markdown("#### 🚗 Accident type analysis")
         

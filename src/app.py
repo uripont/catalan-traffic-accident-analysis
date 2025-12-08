@@ -79,31 +79,27 @@ with col2:
 st.markdown("---")
 st.markdown("### 🗺️ Use cases")
 
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3 = st.columns(3)
 
 with col1:
+    st.markdown("""
+    #### 🔄 Comparative analysis
+    Compare multiple accident scenarios side-by-side to understand relative risk levels.
+    """)
+    
+with col2:
     st.markdown("""
     #### 🔮 Hypothetical scenarios
     Simulate new accident characteristics and predict mortality risk in "what-if" scenarios.
     """)
 
-with col2:
+with col3:
     st.markdown("""
     #### 📊 Past accident analysis
     Upload or select historical accidents to assess the likelihood of observed outcomes.
     """)
 
-with col3:
-    st.markdown("""
-    #### ⚠️ Risk prevention
-    Identify which factors most influence mortality risk to guide prevention strategies.
-    """)
 
-with col4:
-    st.markdown("""
-    #### 🔄 Comparative analysis
-    Compare multiple accident scenarios side-by-side to understand relative risk levels.
-    """)
 
 st.markdown("---")
 st.markdown("### 📈 Model information")

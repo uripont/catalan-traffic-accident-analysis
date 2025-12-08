@@ -203,7 +203,7 @@ def main():
     
     col1, col2 = st.columns([1, 4])
     with col1:
-        load_button = st.button("🔄 Load Random Sample")
+        load_button = st.button("🔄 Sample past cases")
     
     if load_button:
         df_sample = load_sample_accidents(reference_df, n_samples)
