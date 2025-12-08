@@ -1,7 +1,3 @@
-"""
-Model loading and inference utilities for Catalan traffic accident mortality prediction.
-"""
-
 import os
 import json
 import pickle
@@ -11,18 +7,8 @@ from pathlib import Path
 from typing import Dict, Tuple, Optional
 
 
-class MortalityPredictor:
-    """Loads XGBoost models and provides mortality prediction functionality."""
-    
+class MortalityPredictor:    
     def __init__(self, models_dir: str = None):
-        """
-        Initialize the predictor by loading available models.
-        
-        Parameters:
-        -----------
-        models_dir : str
-            Path to directory containing model files. Defaults to '../models/'
-        """
         if models_dir is None:
             models_dir = os.path.join(
                 os.path.dirname(__file__), 
@@ -35,7 +21,6 @@ class MortalityPredictor:
         self._load_models()
     
     def _load_models(self):
-        """Load all available XGBoost models and their metadata."""
         for pkl_file in self.models_dir.glob('*.pkl'):
             model_name = pkl_file.stem
             metadata_file = self.models_dir / f"{model_name}_metadata.json"
@@ -48,11 +33,9 @@ class MortalityPredictor:
                     self.model_metadata[model_name] = json.load(f)
     
     def get_available_models(self) -> list:
-        """Return list of available model names."""
         return list(self.models.keys())
     
     def get_model_info(self, model_name: str) -> Dict:
-        """Get metadata about a specific model."""
         return self.model_metadata.get(model_name, {})
     
     def predict(
@@ -61,25 +44,6 @@ class MortalityPredictor:
         model_name: str = None,
         return_probabilities: bool = True
     ) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Predict mortality for given accident features.
-        
-        Parameters:
-        -----------
-        features_df : pd.DataFrame
-            DataFrame with preprocessed features
-        model_name : str
-            Model to use. If None, uses the best model (highest ROC-AUC)
-        return_probabilities : bool
-            If True, returns probability of mortality. If False, returns binary prediction.
-        
-        Returns:
-        --------
-        predictions : np.ndarray
-            Binary predictions (0/1) or probabilities depending on return_probabilities
-        probabilities : np.ndarray
-            Probability of mortality (if return_probabilities=True) or None
-        """
         if not self.models:
             raise ValueError("No models loaded. Check models directory.")
         
@@ -120,6 +84,51 @@ class MortalityPredictor:
         
         return best_model or list(self.models.keys())[0]
     
+    def predict_from_dict(
+        self,
+        scenario_dict: Dict,
+        reference_df: pd.DataFrame = None,
+        model_name: str = None
+    ) -> Tuple[int, float]:
+        if model_name is None:
+            model_name = self._select_best_model()
+        
+        if model_name not in self.models:
+            raise ValueError(f"Model '{model_name}' not found. Available: {self.get_available_models()}")
+        
+        model = self.models[model_name]
+        metadata = self.model_metadata[model_name]
+        
+        # Get expected feature names from model
+        feature_names = model.get_booster().feature_names
+        
+        # Create a dict with all required features, filling defaults
+        features = {}
+        for feat in feature_names:
+            if feat in scenario_dict:
+                features[feat] = scenario_dict[feat]
+            elif reference_df is not None and feat in reference_df.columns:
+                # Use mode for categorical, mean for numeric
+                if reference_df[feat].dtype == 'object':
+                    features[feat] = reference_df[feat].mode()[0] if len(reference_df[feat].mode()) > 0 else reference_df[feat].iloc[0]
+                else:
+                    features[feat] = reference_df[feat].mean()
+            else:
+                # Default fallback values
+                if 'Any' in feat or 'hor' in feat or 'Mes' in feat or 'C_VELOCITAT' in feat:
+                    features[feat] = 2015  # Default year/time value
+                else:
+                    features[feat] = 0  # Default numeric
+        
+        # Create DataFrame with single row in correct column order
+        df = pd.DataFrame([features])
+        df = df[feature_names]  # Reorder to match model's expected feature order
+        
+        # Get prediction
+        predictions, probabilities = self.predict(df, model_name=model_name)
+        
+        return int(predictions[0]), float(probabilities[0])
+    
     def get_feature_importance(self, model_name: str = None) -> pd.DataFrame:
         """Get feature importance from a model."""
         if model_name is None:
@@ -137,17 +146,10 @@ class MortalityPredictor:
         return feature_importance
 
 
-class FeaturePreprocessor:
-    """Handles feature preprocessing for model input."""
-    
+class FeaturePreprocessor:    
     def __init__(self, reference_df: pd.DataFrame = None):
         """
-        Initialize preprocessor with reference data.
-        
-        Parameters:
-        -----------
-        reference_df : pd.DataFrame
-            Reference cleaned dataset to extract categorical levels and scaling info
+        reference_df should be Reference cleaned dataset to extract categorical levels and scaling info
         """
         self.reference_df = reference_df
         self.categorical_features = [
@@ -169,20 +171,17 @@ class FeaturePreprocessor:
         ]
     
     def get_categorical_levels(self, column: str) -> list:
-        """Get valid categorical levels for a feature."""
         if self.reference_df is not None and column in self.reference_df.columns:
             return sorted(self.reference_df[column].unique().tolist())
         return []
     
     def create_empty_row(self) -> pd.DataFrame:
-        """Create an empty DataFrame with correct columns and types."""
         all_features = self.categorical_features + self.numeric_features
         data = {col: [None] for col in all_features}
         return pd.DataFrame(data)
 
 
 def load_reference_data(output_dir: str = None) -> pd.DataFrame:
-    """Load the cleaned reference dataset."""
     if output_dir is None:
         output_dir = os.path.join(
             os.path.dirname(__file__),
