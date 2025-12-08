@@ -199,7 +199,7 @@ def main():
     **Threshold:** Predictions ≥ {MORTALITY_THRESHOLD*100:.0f}% are considered fatal
     """)
     
-    n_samples = st.slider("Number of accidents to analyze", 5, 200, 10)
+    n_samples = st.slider("Number of accidents to analyze", 5, 200, 50) # 50 cases as default instead
     
     col1, col2 = st.columns([1, 4])
     with col1:
