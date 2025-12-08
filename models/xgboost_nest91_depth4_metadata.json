@@ -1,0 +1,43 @@
+{
+  "model_type": "XGBClassifier",
+  "hyperparameters": {
+    "n_estimators": 91,
+    "max_depth": 4,
+    "learning_rate": 0.0848198255419059,
+    "subsample": 0.5087030584150962,
+    "colsample_bytree": 0.8283937221162095,
+    "min_child_weight": 11,
+    "gamma": 1.4531505549729868,
+    "reg_alpha": 1.280511924413622,
+    "reg_lambda": 3.5882849780665884
+  },
+  "training_time_seconds": 0.13677000999450684,
+  "optimization_trial_number": 16903,
+  "optimization_best_score": 0.7603736129324782,
+  "evaluation_metrics": {
+    "Train": {
+      "Accuracy": 0.7340826686004351,
+      "Precision": 0.32281922993256473,
+      "Recall": 0.7281648675171737,
+      "F1": 0.44732479276563675,
+      "ROC-AUC": 0.8076492398345659
+    },
+    "Val": {
+      "Accuracy": 0.7252115059221658,
+      "Precision": 0.30407523510971785,
+      "Recall": 0.665903890160183,
+      "F1": 0.41750358680057387,
+      "ROC-AUC": 0.7712833729868062
+    },
+    "Test": {
+      "Accuracy": 0.7239512855209743,
+      "Precision": 0.3007360672975815,
+      "Recall": 0.6544622425629291,
+      "F1": 0.41210374639769454,
+      "ROC-AUC": 0.7683918012578091
+    }
+  },
+  "optimal_threshold": 0.5206,
+  "total_trials_run": 45333,
+  "threshold_rationale": "Optimized for 27% precision, 66% recall - catches 2/3 of mortality cases"
+}
