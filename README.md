@@ -1,64 +1,50 @@
+<img src="data/figures/upf_logo.png" width="120">
 
-## Visual Analytics Final Project: Understanding mortality in Catalan road accidents
+---
 
-Felipe López, Oriol Pont
+# A machine learning system for mortality prediction in Catalan traffic accidents
 
-### Project description and expected benefits
+#### A project for the **UPF - Visual Analytics** course, 2025
 
-We have readily available data from all accidents in Catalan roads that involved serious injuries and deaths, thanks to a digitalization task done by our public administration. Direct inspection of this data makes it hard to discover the patterns and causes behind the outcomes, so we want to leverage Visual Analytics and ML techniques to analyze, visualize and use the data to predict death risk in new accidents. In short, we want to understand what factors and features are more relevant to help predicting whether an accident with a specific set of characteristics involves deadly victims.
+This repository contains the development of a machine learning system for predicting mortality risk in traffic accidents, based on [publicly-available accident data from 2010-2023 across Catalonia](https://analisi.transparenciacatalunya.cat/Transport/Accidents-de-tr-nsit-amb-morts-o-ferits-greus-a-Ca/rmgc-ncpb/about_data). The snapshot used in this project (exported on 2025-12-04) is included in the repository as `data/accidents_catalonia_2010_2023.csv`.
 
-Not only this would allow running simulations to predict outcomes in **hypothetical scenarios**, or even asses how likely were the observed outcomes of a given **past** accident: the learned criteria from such prediction model would allow us taking intelligent measures **in the present** to reduce the overall risk of deadly accidents, which in turn might save **future** lives.
+Our approach, as expected, combines exploratory data analysis, training and assessment of multiple machine learning models, and explainable AI techniques to understand which features matter most when predicting whether an accident will result in fatalities. These insights enable running **hypothetical scenarios** to assess mortality risk, analyzing **past accidents** to understand outcomes, and informing **present interventions** to reduce deadly accidents in the future; all via a user-friendly interactive web application we were tasked to build with Streamlit.
 
------
+![System overview: accident analysis, factor importance, and personalized predictions](data/figures/prediction_sampling.png) ![Key risk factors and their impact](data/figures/factor_analysis.png) ![Personalized mortality risk prediction](data/figures/personalized_prediction.png)
 
-### Required data sources
+It was developed in a short 2-day sprint timeframe (see [commit history](https://github.com/uripont/catalan-traffic-accident-analysis/commits/main/)) while studying for our final exams and finishing other final projects, and it is designed for use cases in fields like public safety, traffic management, insurance risk assessment and emergency response.
 
-  * [https://analisi.transparenciacatalunya.cat/Transport/Accidents-de-tr-nsit-amb-morts-o-ferits-greus-a-Ca/rmgc-ncpb/about\_data](https://www.google.com/search?q=https://analisi.transparenciacatalunya.cat/Transport/Accidents-de-tr-nsit-amb-morts-o-ferits-greus-a-Ca/rmgc-ncpb/about_data)
-
-A 24.5k-row dataset collecting data about traffic accidents involving serious injuries or deaths. It is provided and annually updated by the Interior Department since 2010. Each record conforms a mix of categorical and numerical data, originating from the Accident Police Report.
-
-The snapshot we will be using (exported on 2025-12-04) is already present in this repository as `data/accidents_catalonia_2010_2023.csv`.
-
-### Expected results/delivery/output
-
-We will focus on delivering an interactive Streamlit webapp that enables running mortality simulations on different scenarios, using our model trained from this dataset.
-
-To work with the data and train this model, we will use a Jupyter Notebook (.ipynb), where we will perform an initial Exploratory Data Analysis, prepare the dataset for ML (cleaning, standarizing,...), prepare several training runs and generate the final output, and use XAI techniques to showcase what has been learned by the model.
-
------
-
-### Visualization method
-
-We will use plots to showcase the model evals, and an interactive interface that allows running predictions and simulations using a few clicks instead of filling large config files. The specificities of the visualizations used will be determined during the model development according to how valuable the insights each showcase are, discarding all the plots/histograms/heatmaps/... that don't present valuable information to the reader.
-
------
-
-### Repository structure
+## Project structure
 
 ```plaintext
-catalan-traffic-accident-analysis/
-├── data/
-├── notebooks/          # .ipynb notebooks for EDA and model training
-├── src/                # Streamlit app
-├── models/
-├── output/             # for static visualizations
-├── README.md
+.
+├── data/                      # Traffic accident dataset from Catalonia (2010-2023)
+├── models/                    # Trained machine learning models and metadata
+├── notebooks/                 # Jupyter notebooks for analysis and model development
+├── src/                       # Streamlit interactive web application
+│   ├── app.py
+│   ├── components/
+│   ├── pages/
+│   │   ├── comparative_analysis.py
+│   │   ├── hypothetical_scenarios.py
+│   │   └── past_accident_analysis.py
+│   └── utils/
+├── output/                    # Generated outputs and processed data
+├── .gitignore
 ├── LICENSE
-└── pyproject.toml      # Project dependencies
+├── pyproject.toml             # Project dependencies
+└── README.md
 ```
 
------
+## Requirements
 
-### Development setup
+- Python 3.10 or higher
+- `uv` package manager ([install uv](https://docs.astral.sh/uv/getting-started/installation/))
+- All Python dependencies are specified in `pyproject.toml`
 
-This project uses `uv` for fast and reliable Python environment management. All dependencies (notebooks, Jupyter, Streamlit, ML libraries) are specified in `pyproject.toml`.
+## Setup
 
-#### Prerequisites
-
-* Python 3.10 or higher
-* `uv` package manager ([install uv](https://docs.astral.sh/uv/getting-started/installation/))
-
-#### Setting up the environment
+This project uses `uv` for Python environment management.
 
 1. Clone the repository and navigate to the project directory
 2. Create and activate the virtual environment:
@@ -75,12 +61,21 @@ uv sync
 .venv\Scripts\activate
 ```
 
-This will:
+### Running the application
 
-* Create a `.venv` virtual environment
-* Install all dependencies including Jupyter, Streamlit, pandas, scikit-learn, and XAI libraries
+To launch the interactive Streamlit application:
 
-#### Updating dependencies
+```bash
+streamlit run src/app.py
+```
+
+To work with the analysis notebooks:
+
+```bash
+jupyter notebook notebooks/
+```
+
+### Updating dependencies
 
 To add new packages, edit `pyproject.toml` and run:
 
